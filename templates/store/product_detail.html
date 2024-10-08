@@ -161,7 +161,7 @@
 
                                 <div class="dropdown-cart-action">
                                     <a href="{% url 'carts:cart'%}"  class="btn btn-primary">View Cart</a>
-                                    <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                    <a href="{% url 'carts:checkout'%}" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
                                 </div><!-- End .dropdown-cart-total -->
                             </div><!-- End .dropdown-menu -->
                         </div><!-- End .cart-dropdown -->
@@ -289,17 +289,24 @@
                                     <div class="details-filter-row details-row-size">
                                         <label for="qty">Qty:</label>
                                         <div class="product-details-quantity">
+                                            {% if in_stock %}
                                             <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                            {% else %}
+                                            <td class="stock-col"><span class="out-of-stock">Out of stock</span></td>
+                                            {% endif %}
                                         </div><!-- End .product-details-quantity -->
                                     </div><!-- End .details-filter-row -->
 
                                     <div class="product-details-action">
                                         <button class="btn  btn-primary" type="submit"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </button>
-
+                                    </form>
+                                    <form method="POST" action="{% url 'wishlist:add_wishlist' products.id %}">
+                                        {% csrf_token %}
                                         <div class="details-action-wrapper">
-                                            <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
-                                            <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to Compare</span></a>
-                                        </div><!-- End .details-action-wrapper -->
+                                            <button class="btn-product btn-wishlist"  type="submit" title="Wishlist" style="padding:7px 15px; border:none"><span>Add to Wishlist</span></a>
+                                    </form>
+                                </div><!-- End .details-action-wrapper -->
+                                <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to Compare</span></a>
                                     </div><!-- End .product-details-action -->
 
                                     <div class="product-details-footer">
@@ -839,7 +846,7 @@
                             <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
                             <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>
                             <li><a href="cart.html">Cart</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
+                            <li><a href="{% url 'carts:checkout'%}">Checkout</a></li>
                             <li><a href="wishlist.html">Wishlist</a></li>
                             <li><a href="#">Lookbook</a></li>
                         </ul>

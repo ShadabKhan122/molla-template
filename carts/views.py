@@ -22,8 +22,9 @@ def add_cart(request,product_id):
         product_variation=[]
       
         if request.method == "POST":
-            rental_days = request.POST.get('rental_days', '0')
-            rental_days = int(rental_days) 
+            rental_days = request.POST.get('rental_days', None)
+            if rental_days: 
+                rental_days = int(rental_days) 
             for item in request.POST:
                 key=item
                 
@@ -55,13 +56,16 @@ def add_cart(request,product_id):
                 item=CartItem.objects.get(product=product,id=item_id)
                 
                 item.quantity+=1
-                item.rental_days = rental_days
+
+                if rental_days is not None: 
+                      item.rental_days = rental_days
                 item.save()
             else:
                 item=CartItem.objects.create(product=product,quantity=1,user=request.user)
                 if len(product_variation)>0:
                     item.variation.clear()
                     item.variation.add(*product_variation)
+                    item.rental_days=rental_days
                 item.save()
                     
         else:
@@ -69,7 +73,7 @@ def add_cart(request,product_id):
                 product=product,
                 quantity=1,
                 user=request.user,
-                rental_days=rental_days 
+                rental_days=rental_days if rental_days is not None else 0 
             )
             if len(product_variation)>0:
                     cart_item.variation.clear()
@@ -152,10 +156,7 @@ def cart(request):
         
         cart_items=CartItem.objects.filter(user=request.user,is_active=True)
     else:
-        return redirect ('home')
-        # cart=Cart.objects.get(cart_id=_cart_id(request))
-        # cart_items=CartItem.objects.filter(cart=cart,is_active=True)
-    
+        return redirect ('accounts:login')
     for cart_item in cart_items:
         total+=cart_item.product.price*cart_item.quantity
         total_rent += cart_item.rent_total() 
@@ -179,8 +180,7 @@ def remove_cart(request,product_id,cart_item_id):
         cart_item=CartItem.objects.get(user=request.user,product=product_id,id=cart_item_id)
     else:
 
-        cart=Cart.objects.get(cart_id=_cart_id(request))
-        cart_item=CartItem.objects.get(cart=cart,product=product_id,id=cart_item_id)
+        return redirect('accounts:login')
     cart_item.delete()
     return redirect('carts:cart')
 
@@ -188,9 +188,9 @@ def remove_item(request,product_id,cart_item_id):
     if request.user.is_authenticated:
         cart_item=CartItem.objects.get(user=request.user,product=product_id,id=cart_item_id)
     else:
-
-        cart=Cart.objects.get(cart_id=_cart_id(request))
-        cart_item=CartItem.objects.get(cart=cart,product=product_id,id=cart_item_id)
+        return redirect('accounts:login')
+        # cart=Cart.objects.get(cart_id=_cart_id(request))
+        # cart_item=CartItem.objects.get(cart=cart,product=product_id,id=cart_item_id)
     if cart_item.quantity>1:
         cart_item.quantity-=1
         cart_item.save()

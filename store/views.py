@@ -48,14 +48,11 @@ def search(request):
 def product_detail(request,category_slug=None,product_slug=None):
     categories=Category.objects.get(slug=category_slug)
     products=Product.objects.get(category=categories,slug=product_slug)
-    print(products)
-    
-    
     context={
-        'products':products
+        'products':products,
+        'in_stock':products.is_in_stock(),
     }
     return render(request,'store/product_detail.html',context)
-
 
 
 

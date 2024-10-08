@@ -123,7 +123,7 @@
                         </div><!-- End .compare-dropdown -->
 
                         <div class="wishlist">
-                            <a href="wishlist.html" title="Wishlist">
+                            <a href="{% url 'wishlist:wishlist'%}" title="Wishlist">
                                 <div class="icon">
                                     <i class="icon-heart-o"></i>
                                     <span class="wishlist-count badge">3</span>
@@ -182,29 +182,29 @@
 
                     <div class="header-center">
                         <nav class="main-nav">
-                            <ul class="menu sf-arrows">
-                                <li class="megamenu-container deactive">
-                                    <a href="{% url 'home' %}" class="sf-with-ul">Home</a>
+                            <ul class="menu" >
+                                <li class="" style="padding: 10px;">
+                                    <a href="{% url 'home' %}" class="">Home</a>
                                 </li>
-                                <li>
-                                    <a href="{% url 'store:store'%}" class="sf-with-ul">Shop</a>
-                                    <div class="megamenu megamenu-md">
+                                <li style="padding: 10px;">
+                                    <a href="{% url 'store:store'%}" class="" >Shop</a>
+                                    <div class="">
                                     </div><!-- End .megamenu megamenu-md -->
                                 </li>
-                                <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                <li style="padding: 10px;">
+                                    <a href="product.html" class="" >Product</a>
 
-                                    <div class="megamenu megamenu-sm">
+                                    <div class="">
                                     </div><!-- End .megamenu megamenu-sm -->
                                 </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Pages</a>
+                                <li style="padding: 10px;">
+                                    <a href="#" class="" >Pages</a>
                                     
-                                <li>
-                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+                                <li style="padding: 10px;">
+                                    <a href="blog.html" class="" >Blog</a>
                                 </li>
-                                <li>
-                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                <li style="padding: 10px;">
+                                    <a href="elements-list.html" class="" >Elements</a>
                                 </li>
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
@@ -1536,7 +1536,7 @@
 	            				<ul class="widget-list">
 	            					<li><a href="{% url 'accounts:login' %}">Sign In</a></li>
 	            					<li><a href="cart.html">View Cart</a></li>
-	            					<li><a href="#">My Wishlist</a></li>
+	            					<li><a href="{% url 'wishlist:wishlist' %}">My Wishlist</a></li>
 	            					<li><a href="#">Track My Order</a></li>
 	            					<li><a href="#">Help</a></li>
 	            				</ul><!-- End .widget-list -->
@@ -1636,7 +1636,7 @@
                                     <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
                                     <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>
                                     <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
+                                    <li><a href="{% url 'carts:checkout'%}">Checkout</a></li>
                                     <li><a href="wishlist.html">Wishlist</a></li>
                                     <li><a href="#">Lookbook</a></li>
                                 </ul>

@@ -28,3 +28,4 @@ class CartItem(models.Model):
     
     def rent_total(self):
         return self.product.rent_per_day * self.rental_days * self.quantity
+    

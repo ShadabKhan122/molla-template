@@ -90,35 +90,35 @@
                         </a>
 
                         <nav class="main-nav">
-                            <ul class="menu sf-arrows">
-                                <li class="megamenu-container deactive">
-                                    <a href="{% url 'home' %}" class="sf-with-ul">Home</a>
+                            <ul class="menu" style="padding-left: 80px;">
+                                <li class="" style="padding: 5px;">
+                                    <a href="{% url 'home' %}" class="">Home</a>
 
                                    
                                 </li>
-                                <li>
-                                    <a href="{%url 'store:store'%}" class="sf-with-ul">Shop</a>
+                                <li style="padding: 5px;">
+                                    <a href="{%url 'store:store'%}" class="">Shop</a>
 
-                                    <div class="megamenu megamenu-md">
+                                    <div class="">
                                     </div><!-- End .megamenu megamenu-md -->
                                 </li>
-                                <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                <li style="padding: 5px;">
+                                    <a href="product.html" class="">Product</a>
 
                                     <div class="megamenu megamenu-sm">
                                     </div><!-- End .megamenu megamenu-sm -->
                                 </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Pages</a>
+                                <li style="padding: 5px;">
+                                    <a href="#" class="">Pages</a>
 
                                     
                                 </li>
-                                <li>
-                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+                                <li style="padding: 5px;">
+                                    <a href="blog.html" class="">Blog</a>
                                         
                                 </li>
-                                <li>
-                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                <li style="padding: 5px;">
+                                    <a href="elements-list.html" class="">Elements</a>
 
                                 </li>
                             </ul><!-- End .menu -->
@@ -176,7 +176,7 @@
 
                                 <div class="dropdown-cart-action">
                                     <a href="{% url 'carts:cart'%}" class="btn btn-primary">View Cart</a>
-                                    <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                    <a href="{% url 'carts:checkout'%}" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
                                 </div><!-- End .dropdown-cart-total -->
                             </div><!-- End .dropdown-menu -->
                         </div><!-- End .cart-dropdown -->
@@ -192,7 +192,7 @@
 
 
         <main class="main">
-        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        	<div class="page-header text-center" style="background-image: url('{% static 'assets/images/page-header-bg.jpg' %}')">
         		<div class="container">
         			<h1 class="page-title">Our All New Products<span>Shop</span></h1>
         		</div><!-- End .container -->
@@ -214,7 +214,7 @@
                 			<div class="toolbox">
                 				<div class="toolbox-left">
                 					<div class="toolbox-info">
-                						Showing <span>9 of {{ all_products.paginator.count }}</span> Products
+                						Showing <span> {{ all_products.paginator.count }}</span> Products
                 					</div><!-- End .toolbox-info -->
                 				</div><!-- End .toolbox-left -->
 
@@ -745,7 +745,7 @@
                             <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
                             <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>
                             <li><a href="cart.html">Cart</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
+                            <li><a href="{% url 'carts:checkout'%}">Checkout</a></li>
                             <li><a href="wishlist.html">Wishlist</a></li>
                             <li><a href="#">Lookbook</a></li>
                         </ul>

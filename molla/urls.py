@@ -26,5 +26,6 @@ urlpatterns = [
     path('store',include ('store.urls')),
     path('cart/', include('carts.urls', namespace='carts')),
     path('order/', include('orders.urls', namespace='orders')),
+    path('wishlist/', include('wishlist.urls', namespace='wishlist')),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

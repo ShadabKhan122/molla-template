@@ -51,7 +51,9 @@ class Product(models.Model):
     def get_url(self):
         return reverse('store:product_detail',args=[self.category.slug,self.slug])
     
-
+    def is_in_stock(self):
+        return self.stock > 0
+    
 class VariationManager(models.Manager):
     def colors(self):
         return super(VariationManager,self).filter(variation_category="color",is_active=True)
