@@ -1,7 +1,7 @@
 from .models import Wishlist,WishlistItem
 from .views import _wishlist_id
 
-def counter(request):
+def counter_wishlist(request):
     wishlist_count=0
     if 'admin' in request.path:
         return {}

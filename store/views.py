@@ -17,13 +17,13 @@ def store(request,category_slug=None):
         products=Product.objects.all()
         paginator=Paginator(products,9)
         page=request.GET.get('page')
-        print(page)
         paged_products=paginator.get_page(page)
-        print(paged_products)
+    count_on_page=len(paged_products.object_list)
     context={
         'paginator': paginator,
         'all_products':paged_products,
         'current_category': category_slug,
+        'count_products':count_on_page,
     }
     return render(request,'store/store.html',context)
 
@@ -63,3 +63,28 @@ def rent_product(request, product_id):
         # Implement the rental logic here
         return redirect('cart')  # Redirect to a success page or cart
     return render(request, 'rent_product.html', {'product': product})
+
+
+def sort_item(request):
+    sort_by = request.GET.get('sort', 'none')
+
+    if sort_by == 'sale':
+        products=Product.objects.filter(sale=True)
+    elif sort_by == 'top_rated':
+        products=Product.objects.filter(top_rated=True)
+    elif sort_by == 'created_date':
+        products=Product.objects.order_by('-created_date')
+    else:
+        products=Product.objects.all()
+
+    paginator=Paginator(products,9)
+    page=request.GET.get('page')
+    page_products=paginator.get_page(page)
+    count_on_page=len(page_products.object_list)
+    context = {
+        'paginator':paginator,
+        'count_products':count_on_page,
+        'all_products':page_products
+    }
+
+    return render(request,'store/store.html', context)

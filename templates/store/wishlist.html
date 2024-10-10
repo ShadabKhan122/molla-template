@@ -35,26 +35,26 @@
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
-                        <div class="header-dropdown">
-                            <a href="#">Usd</a>
-                            <div class="header-menu">
-                                <ul>
-                                    <li><a href="#">Eur</a></li>
-                                    <li><a href="#">Usd</a></li>
-                                </ul>
-                            </div><!-- End .header-menu -->
-                        </div><!-- End .header-dropdown -->
-
-                        <div class="header-dropdown">
-                            <a href="#">Eng</a>
-                            <div class="header-menu">
-                                <ul>
-                                    <li><a href="#">English</a></li>
-                                    <li><a href="#">French</a></li>
-                                    <li><a href="#">Spanish</a></li>
-                                </ul>
-                            </div><!-- End .header-menu -->
-                        </div><!-- End .header-dropdown -->
+                        {% if request.user.is_authenticated %}
+                        <div class="widget-header">
+                          
+                            <small class="title text-muted">Welcome {{user.username}}</small>
+                           
+                            <div> 
+                                <a href="{% url 'accounts:logout' %}">Logout</a> <span class="dark-transp"> | </span>
+                                <a href="#"> Dashboard</a>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="widget-header">
+                            <small class="title text-muted">Welcome Guest</small>
+                            <div> 
+                                <a href="{% url 'accounts:login' %}">Sign in</a> <span class="dark-transp"> | </span>
+                                <a href="{% url 'accounts:register' %}"> Register</a>
+                            </div>
+                         
+                        </div>
+                        {% endif %}
                     </div><!-- End .header-left -->
 
                     <div class="header-right">
@@ -63,7 +63,7 @@
                                 <a href="#">Links</a>
                                 <ul>
                                     <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
-                                    <li><a href="wishlist.html"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
+                                    <li><a href="wishlist.html"><i class="icon-heart-o"></i>Wishlist <span>({{wishlist_items.count}})</span></a></li>
                                     <li><a href="about.html">About Us</a></li>
                                     <li><a href="contact.html">Contact Us</a></li>
                                     <li><a href="{% url 'accounts:login'%}" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
@@ -82,29 +82,39 @@
                             <i class="icon-bars"></i>
                         </button>
 
-                        <a href="index.html" class="logo">
+                        <a href="{% url 'home'%}" class="logo">
                             <img src="{% static 'assets/images/logo.png' %}" alt="Molla Logo" width="105" height="25">
                         </a>
 
                         <nav class="main-nav">
-                            <ul class="menu sf-arrows">
-                                <li class="megamenu-container active">
-                                    <a href="index.html" class="sf-with-ul">Home</a>
+                            <ul class="menu" style="padding-left: 100px;">
+                                <li class="" style="padding: 5px;">
+                                    <a href="{% url 'home' %}" class="">Home</a>
 
                                    
                                 </li>
-                                <li>
-                                    <a href="category.html" class="sf-with-ul">Shop</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Pages</a>
+                                <li style="padding: 5px;">
+                                    <a href="{%url 'store:store'%}" class="">Shop</a>
 
+                                    <div class="">
+                                    </div><!-- End .megamenu megamenu-md -->
                                 </li>
-                                <li>
-                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+                                <li style="padding: 5px;">
+                                    <a href="product.html" class="">Product</a>
+
+                                   
                                 </li>
-                                <li>
-                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                <li style="padding: 5px;">
+                                    <a href="#" class="">Pages</a>
+
+                                    
+                                </li>
+                                <li style="padding: 5px;">
+                                    <a href="blog.html" class="">Blog</a>
+                                        
+                                </li>
+                                <li style="padding: 5px;">
+                                    <a href="elements-list.html" class="">Elements</a>
 
                                 </li>
                             </ul><!-- End .menu -->
@@ -113,13 +123,20 @@
 
                     <div class="header-right">
                         <div class="header-search">
-                            <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
-                            <form action="#" method="get">
+                            <a href="#" class="search-toggle" type="button" name="search" id="search" title="Search"><i class="icon-search"></i></a>
+                            <form action="{% url 'store:search'%}" method="GET">
                                 <div class="header-search-wrapper">
                                     <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                                    <input type="search" class="form-control" name="search" id="search" placeholder="Search in..." required>
+                                    <button class="btn btn-primary" type="submit" style="background-color:transparent; color:black;font-size:22px"><i class="icon-search "></i></button>
                                 </div><!-- End .header-search-wrapper -->
                             </form>
+                            <script>
+                                document.querySelector('.search-toggle').addEventListener('click', function(event) {
+                                    event.preventDefault();  // Prevents the default behavior of the link (optional)
+                                    this.style.display = 'none';  // Hides the search button when clicked
+                                });
+                            </script>
                         </div><!-- End .header-search -->
                         <div class="dropdown compare-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
@@ -148,7 +165,7 @@
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                                <span class="cart-count">{{cart_count}}</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">

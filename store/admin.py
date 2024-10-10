@@ -1,10 +1,12 @@
 from django.contrib import admin
+from django import forms
 from .models import Product
-from store.models import Variation
+from store.models import Variation,Size,Color
 # Register your models here.
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields={'slug':('product_name',)}
     list_display=['product_name','slug','price','description', 'thumbnail_image1', 'thumbnail_image2', 'thumbnail_image3', 'thumbnail_image4']
 admin.site.register(Product,ProductAdmin)
+
 
 admin.site.register(Variation)

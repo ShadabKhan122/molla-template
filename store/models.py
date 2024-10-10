@@ -20,6 +20,23 @@ class Gender(models.TextChoices):
         MEN = 'men', 'Men'
         UNISEX = 'unisex', 'Unisex'
 
+
+class Size(models.TextChoices):
+        XS = 'xs', 'xs'
+        S = 's', 's'
+        M = 'm' , 'm'
+        L = 'l', 'l'
+        XL = 'xl', 'xl'
+        XXL = 'xxl', 'xxl'
+        
+class Color(models.TextChoices):
+        RED = 'red', 'Red'
+        BLUE = 'blue', 'Blue'
+        GREEN = 'green', 'Green'
+        BLACK = 'black', 'Black'
+        WHITE = 'white', 'White'
+        YELLOW = 'yellow', 'Yellow'       
+
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     product_name=models.CharField(max_length=100,unique=True,)
@@ -71,6 +88,7 @@ class Variation(models.Model):
     product=models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE)
     variation_category=models.CharField(max_length=100,choices=variation_category_choice)
     variation_value=models.CharField(max_length=100)
+                                     
     is_active=models.BooleanField(default=True)
     created_date=models.DateTimeField(auto_now_add=True)
     objects=VariationManager()

@@ -126,7 +126,7 @@
                             <a href="{% url 'wishlist:wishlist'%}" title="Wishlist">
                                 <div class="icon">
                                     <i class="icon-heart-o"></i>
-                                    <span class="wishlist-count badge">3</span>
+                                    <span class="wishlist-count badge">{{wishlist_count}}</span>
                                 </div>
                                 <p>Wishlist</p>
                             </a>
@@ -136,7 +136,7 @@
                             <a href="{% url 'carts:cart'%}" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <div class="icon">
                                     <i class="icon-shopping-cart"></i>
-                                    <span class="cart-count">2</span>
+                                    <span class="cart-count">{{cart_count}}</span>
                                 </div>
                                 <p>Cart</p>
                             </a>
@@ -149,7 +149,7 @@
                                 <div class="dropdown-cart-total">
                                     <span>Total</span>
 
-                                    <span class="cart-total-price">$160.00</span>
+                                    <span class="cart-total-price">{{final_total}}</span>
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
@@ -173,7 +173,10 @@
                             <div class="dropdown-menu">
                                 <nav class="side-nav">
                                     <ul class="menu-vertical sf-arrows">
-                                        
+                                        {% for categories in category %}
+                                            <li class="item-lead" style="text-transform:uppercase"><a href="{{ categories.get_url}}">{{categories.category_name}}</a></li>
+                                            
+                                        {% endfor %}
                                     </ul><!-- End .menu-vertical -->
                                 </nav><!-- End .side-nav -->
                             </div><!-- End .dropdown-menu -->
@@ -184,7 +187,7 @@
                         <nav class="main-nav">
                             <ul class="menu" >
                                 <li class="" style="padding: 10px;">
-                                    <a href="{% url 'home' %}" class="">Home</a>
+                                    <a href="{% url 'featured' %}" class="">Home</a>
                                 </li>
                                 <li style="padding: 10px;">
                                     <a href="{% url 'store:store'%}" class="" >Shop</a>
@@ -454,7 +457,7 @@
                                             </div><!-- End .product-price -->
                                         </div><!-- End .product-body -->
                                         <div class="product-action">
-                                            <a href="{% url 'carts:cart'%}" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            <a href="{% url 'add_to_cart_featured' random.id %}" class="btn-product btn-cart"><span>add to cart</span></a>
                                         </div><!-- End .product-action -->
                                     </div><!-- End .product -->
                                         {% endfor %}
@@ -519,7 +522,7 @@
                                             </div><!-- End .product-price -->
                                         </div><!-- End .product-body -->
                                         <div class="product-action">
-                                            <a href="{% url 'carts:cart'%}" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            <a href="{% url 'add_to_cart_sales' product.id %}" class="btn-product btn-cart"><span>add to cart</span></a>
                                         </div><!-- End .product-action -->
                                     </div><!-- End .product -->
                                 {% endfor %}
@@ -586,7 +589,7 @@
                                             </div><!-- End .product-price -->
                                         </div><!-- End .product-body -->
                                         <div class="product-action">
-                                            <a href="{% url 'carts:cart'%}" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            <a href="{% url 'add_to_cart_rated' top.id %}" class="btn-product btn-cart"><span>add to cart</span></a>
                                         </div><!-- End .product-action -->
                                     </div><!-- End .product -->
                                 {% endfor %}

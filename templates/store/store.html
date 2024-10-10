@@ -66,7 +66,7 @@
                                 <a href="#">Links</a>
                                 <ul>
                                     <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
-                                    <li><a href="wishlist.html"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
+                                    <li><a href="{% url 'wishlist:wishlist' %}"><i class="icon-heart-o"></i>Wishlist <span>( {{wishlist_count}} )</span></a></li>
                                     <li><a href="about.html">About Us</a></li>
                                     <li><a href="contact.html">Contact Us</a></li>
                                     <li><a href="{% url 'accounts:login'%}" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
@@ -85,7 +85,7 @@
                             <i class="icon-bars"></i>
                         </button>
 
-                        <a href="index.html" class="logo">
+                        <a href="{% url 'home'%}" class="logo">
                             <img src="{% static 'assets/images/logo.png' %}" alt="Molla Logo" width="105" height="25">
                         </a>
 
@@ -127,14 +127,34 @@
 
                     <div class="header-right">
                         <div class="header-search">
-                            <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
-                            <form action="#" method="get">
+                            <a href="#" class="search-toggle" type="button" name="search" id="search-toggle" title="Search">
+                                <i class="icon-search"></i>
+                            </a>
+                            <form action="{% url 'store:search' %}" method="GET" id="search-form" style="display: none;">
                                 <div class="header-search-wrapper">
                                     <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                                    <input type="search" class="form-control" name="search" id="search-input" placeholder="Search in..." required>
+                                    <button class="btn btn-primary" type="submit" style="background-color:transparent; color:black; font-size:22px">
+                                        <i class="icon-search"></i>
+                                    </button>
                                 </div><!-- End .header-search-wrapper -->
                             </form>
-                        </div><!-- End .header-search -->
+                        </div>
+                        
+                        <script>
+                            document.querySelector('.search-toggle').addEventListener('click', function(event) {
+                                event.preventDefault();  // Prevents default link behavior
+                        
+                                // Toggle the visibility of the search form
+                                const searchForm = document.getElementById('search-form');
+                                if (searchForm.style.display === 'none' || searchForm.style.display === '') {
+                                    searchForm.style.display = 'block';  // Show the form
+                                } else {
+                                    searchForm.style.display = 'none';   // Hide the form
+                                }
+                            });
+                        </script>
+                        
                         <div class="dropdown compare-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
                                 <i class="icon-random"></i>
@@ -162,7 +182,7 @@
                         <div class="dropdown cart-dropdown">
                             <a href="{% url 'carts:cart'%}" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                                <span class="cart-count">{{cart_count}}</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
@@ -171,7 +191,7 @@
                                 <div class="dropdown-cart-total">
                                     <span>Total</span>
 
-                                    <span class="cart-total-price">$160.00</span>
+                                    <span class="cart-total-price"></span>
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
@@ -200,7 +220,7 @@
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
                 <div class="container">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'home'%}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'featured'%}">Home</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'store:store'%}">Shop</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Products</li>
                     </ol>
@@ -214,25 +234,24 @@
                 			<div class="toolbox">
                 				<div class="toolbox-left">
                 					<div class="toolbox-info">
-                						Showing <span> {{ all_products.paginator.count }}</span> Products
+                						Showing <span> {{count_products}} of  {{ all_products.paginator.count }}</span> Products
                 					</div><!-- End .toolbox-info -->
                 				</div><!-- End .toolbox-left -->
 
                 				<div class="toolbox-right">
-                					<div class="toolbox-sort">
-                						<label for="sortby">Sort by:</label>
-                						<div class="select-custom">
-											<select name="sortby" id="sortby" class="form-control">
-												<option value="popularity" selected="selected">Most Popular</option>
-												<option value="rating">Most Rated</option>
-												<option value="date">Date</option>
-											</select>
-										</div>
-                					</div><!-- End .toolbox-sort -->
-
-
-
-
+                                    <form method="GET" action="{% url 'store:sort_item' %}">
+                                        <div class="toolbox-sort">
+                                            <label for="sort">Sort by:</label>
+                                            <div class="select-custom">
+                                                <select name="sort" id="sort" class="form-control" onchange="this.form.submit()">
+                                                    <option value="sale" {% if request.GET.sort == 'sale'%} selected {% endif %}>On Sale</option>
+                                                    <option value="top_rated" {% if request.GET.sort == 'top_rated'%} selected {% endif %}>Highly Rated</option>
+                                                    <option value="created_date" {% if request.GET.sort == 'created_date'%} selected {% endif %}>Date Added</option>
+                                                    
+                                                </select>
+                                            </div>
+                                        </div><!-- End .toolbox-sort -->
+                                    </form>
                 					<div class="toolbox-layout">
                 						<a href="category-list.html" class="btn-layout">
                 							<svg width="16" height="10">
@@ -297,7 +316,7 @@
                                                 </div>
                                                 <figcaption class="info-wrap text-center">
                                                     <div class="fix-height">
-                                                        <a href="{{products.get_url}}" class="title">{{ products.product_name }}</a>
+                                                        <a href="{{products.get_url}}" class="title" style="text-transform:uppercase; color:black;">{{ products.product_name }}</a>
                                                         <div class="price-wrap mt-2">
                                                             <span class="price">${{ products.price }}</span>
                                                             <p>{{ products.description }}</p>
@@ -429,7 +448,7 @@
                                                     <div class="filter-item">
                                                         <div class="custom-control custom-checkbox">
                                                             <input type="checkbox" class="custom-control-input"   name="search" id="search"  >
-                                                            <li class="custom-control-label" for="cat-{{ forloop.counter }}">
+                                                            <li class="custom-control-label" for="cat-{{ forloop.counter }}" style="text-transform:uppercase;">
                                                                 <a href="{{ categories.get_url}}">{{categories.category_name}}</a>
                                                             </li>
                                                         </div><!-- End .custom-checkbox -->
@@ -664,9 +683,9 @@
 	            				<h4 class="widget-title">My Account</h4><!-- End .widget-title -->
 
 	            				<ul class="widget-list">
-	            					<li><a href="#">Sign In</a></li>
+	            					<li><a href="{% url 'accounts:register'%}">Sign In</a></li>
 	            					<li><a href="{% url 'carts:cart'%}">View Cart</a></li>
-	            					<li><a href="#">My Wishlist</a></li>
+	            					<li><a href="{% url 'wishlist:wishlist'%}">My Wishlist</a></li>
 	            					<li><a href="#">Track My Order</a></li>
 	            					<li><a href="#">Help</a></li>
 	            				</ul><!-- End .widget-list -->
